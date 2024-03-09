@@ -4,9 +4,20 @@
 
 	async function signInWithGoogle() {
 		const provider = new GoogleAuthProvider();
-		signInWithPopup(FIREBASE_AUTH, provider);
+		const credential = await signInWithPopup(FIREBASE_AUTH, provider);
+
+		const idToken = await credential.user.getIdToken();
+
+		await fetch('/api/signin', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ idToken })
+		});
 	}
 </script>
 
-<h2>Sign In</h2>
-<button class="w-1/2 btn btn-primary" on:click={signInWithGoogle}>Sign in with Google</button>
+<div class="flex items-center justify-center w-screen h-screen">
+	<button class="w-1/2 btn btn-primary" on:click={signInWithGoogle}>Sign in with Google</button>
+</div>

@@ -1,9 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from "firebase/analytics"
+// import { getAnalytics } from "firebase/analytics"
 import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
-import { writable, type Readable, derived } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);
-export const FIREBASE_ANALYTICS = getAnalytics();
+// export const FIREBASE_ANALYTICS = getAnalytics();
 export const FIREBASE_AUTH = getAuth();
 export const FIREBASE_STORAGE = getStorage();
 export const FIREBASE_DB = getFirestore();
@@ -48,31 +48,3 @@ function userStore() {
 }
 
 export const user = userStore();
-
-export function docStore<T>(path: string) {
-    let unsubscribe: () => void;
-
-    const docRef = doc(FIREBASE_DB, path);
-
-    const { subscribe } = writable<T | null>(null, (set) => {
-        unsubscribe = onSnapshot(docRef, (snapshot) => {
-            set((snapshot.data() as T) ?? null);
-        });
-
-        return () => unsubscribe();
-    });
-
-    return {
-        subscribe,
-        ref: docRef,
-        id: docRef.id
-    };
-}
-
-export const userData = derived(user, ($user, set) => {
-    if ($user) {
-        return docStore(`users/${$user.uid}`).subscribe(set);
-    } else {
-        set(null);
-    }
-});
