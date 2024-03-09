@@ -21,3 +21,5 @@
 	<h1>Keep Calm & Budget On: Protected Route?!</h1>
 	<button class="w-1/2 btn btn-primary" on:click={signOutSSR}>Sign out</button>
 </div>
+
+<!-- force commit -->
