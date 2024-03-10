@@ -15,21 +15,23 @@ const firebaseConfig = {
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth();
 
-function userStore() {
-    let unsubscribe: () => void;
+// function userStore() {
+//     let unsubscribe: () => void;
 
-    if (!FIREBASE_AUTH || !globalThis.window) {
-        console.warn('Auth is not initialized or not in browser');
-        return readable<User | null | undefined>(undefined);
-    }
+//     if (!FIREBASE_AUTH || !globalThis.window) {
+//         console.warn('Auth is not initialized or not in browser');
+//         return readable<User | null | undefined>(undefined);
+//     }
 
-    return writable<User | null | undefined>(undefined, (set) => {
-        unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
-            set(user);
-        });
+//     return writable<User | null | undefined>(undefined, (set) => {
+//         unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
+//             set(user);
+//         });
 
-        return () => unsubscribe();
-    });
-}
+//         return () => unsubscribe();
+//     });
+// }
 
-export const user = userStore();
+// export const user = userStore();
+
+export const user = readable<User | null | undefined>(undefined, (set) => onAuthStateChanged(FIREBASE_AUTH, set))
