@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
-import { writable } from 'svelte/store';
+import { readable, writable } from 'svelte/store';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -26,25 +26,16 @@ function userStore() {
 
     if (!FIREBASE_AUTH || !globalThis.window) {
         console.warn('Auth is not initialized or not in browser');
-
-        const { subscribe } = writable<User | null>(null);
-
-        return {
-            subscribe
-        };
+        return readable<User | null | undefined>(undefined);
     }
 
-    const { subscribe } = writable(FIREBASE_AUTH?.currentUser ?? null, (set) => {
+    return writable<User | null | undefined>(undefined, (set) => {
         unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
             set(user);
         });
 
         return () => unsubscribe();
     });
-
-    return {
-        subscribe
-    };
 }
 
 export const user = userStore();

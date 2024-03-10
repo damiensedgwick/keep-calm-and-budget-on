@@ -14,6 +14,15 @@
 </script>
 
 <div class="flex flex-col items-center justify-center w-screen h-screen space-y-2">
-	<h2>Sign In</h2>
-	<button class="w-1/2 btn btn-primary" on:click={signInWithGoogle}>Sign in with Google</button>
+	<div class="shadow-xl card w-96 bg-base-100">
+		<div class="card-body">
+			<h2 class="card-title">Card title!</h2>
+			<p>If a dog chews shoes whose shoes does he choose?</p>
+			<div class="justify-end card-actions">
+				<button class="w-1/2 btn btn-primary" on:click={signInWithGoogle}>
+					Sign in with Google
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
