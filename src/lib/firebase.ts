@@ -1,8 +1,5 @@
 import { initializeApp } from 'firebase/app';
-// import { getAnalytics } from "firebase/analytics"
-import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
 import { readable, writable } from 'svelte/store';
 
 const firebaseConfig = {
@@ -16,10 +13,7 @@ const firebaseConfig = {
 };
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);
-// export const FIREBASE_ANALYTICS = getAnalytics();
 export const FIREBASE_AUTH = getAuth();
-export const FIREBASE_STORAGE = getStorage();
-export const FIREBASE_DB = getFirestore();
 
 function userStore() {
     let unsubscribe: () => void;
