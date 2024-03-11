@@ -31,7 +31,9 @@ function userStore() {
 
     if (!FIREBASE_AUTH || !globalThis.window) {
         console.warn('Auth is not initialized or not in browser');
-        const { subscribe } = writable<User | null | undefined>(null);
+
+        const { subscribe } = writable<User | null | undefined>(undefined);
+
         return {
             subscribe
         };
