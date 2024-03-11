@@ -65,11 +65,18 @@
 					<h2 class="card-title">Keep Calm & Budget On</h2>
 				</div>
 
-				{#if error}
-					<p class="-mt-4 font-semibold text-center text-error">Invalid Email or Password</p>
-				{/if}
 				<div class="form-control">
-					<label class="flex items-center gap-2 input input-bordered">
+					<label class="cursor-pointer label">
+						<span class="font-semibold label-text">Create a new account?</span>
+						<input type="checkbox" class="toggle toggle-success" bind:checked={createAccount} />
+					</label>
+				</div>
+
+				<label class="w-full max-w-xs form-control">
+					<div class="label">
+						<span class="label-text">Email</span>
+					</div>
+					<div class="flex items-center gap-2 input input-bordered">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 16 16"
@@ -82,10 +89,14 @@
 							/></svg
 						>
 						<input type="text" class="grow" bind:value={email} />
-					</label>
-				</div>
-				<div class="form-control">
-					<label class="flex items-center gap-2 input input-bordered">
+					</div>
+				</label>
+
+				<label class="w-full max-w-xs form-control">
+					<div class="label">
+						<span class="label-text">Password</span>
+					</div>
+					<div class="flex items-center gap-2 input input-bordered">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 16 16"
@@ -98,39 +109,28 @@
 							/></svg
 						>
 						<input type="password" class="grow" bind:value={password} />
-					</label>
-				</div>
+					</div>
+				</label>
 
 				<div class="form-control">
-					<label class="cursor-pointer label">
-						<span class="font-semibold label-text">Create new account?</span>
-						<input type="checkbox" class="toggle toggle-success" bind:checked={createAccount} />
-					</label>
+					<button
+						class="text-white uppercase btn btn-primary"
+						on:click={createAccount ? signUpWithEmailAndPassword : signInWithEmailAndPassword}
+						on:click={signUpWithEmailAndPassword}
+					>
+						Sign {createAccount ? 'up' : 'in'}
+					</button>
 				</div>
 
-				<div class="form-control">
-					{#if createAccount}
-						<button
-							class="text-white uppercase btn btn-primary"
-							on:click={signUpWithEmailAndPassword}
-						>
-							Sign up
-						</button>
-					{:else}
-						<button
-							class="text-white uppercase btn btn-primary"
-							on:click={signInWithEmailAndPassword}
-						>
-							Sign in
-						</button>
-					{/if}
-				</div>
+				{#if error}
+					<p class="mt-2 font-semibold text-center text-error">Invalid Email or Password</p>
+				{/if}
 
 				<div class="divider"></div>
 
 				<div class="form-control">
 					<button class="uppercase btn btn-outline" on:click={signInWithGoogle}>
-						Sign in with Google
+						Sign {createAccount ? 'up' : 'in'} with Google
 					</button>
 				</div>
 			</div>
