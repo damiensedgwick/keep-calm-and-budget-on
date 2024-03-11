@@ -59,7 +59,7 @@
 
 {#if $user === null}
 	<div class="flex flex-col items-center justify-center w-screen h-screen space-y-2">
-		<div class="shadow-xl card w-96 bg-base-100">
+		<div class="shadow-xl card w-80 md:w-96 bg-base-100">
 			<div class="card-body">
 				<div class="flex justify-center mb-4">
 					<h2 class="card-title">Keep Calm & Budget On</h2>
