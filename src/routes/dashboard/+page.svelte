@@ -5,9 +5,11 @@
 <div class="flex flex-col items-center justify-center w-screen h-screen space-y-2">
 	<h1>Welcome!</h1>
 
-	{#if $user}
-		<p>You are logged in...</p>
-	{:else}
+	{#if $user === undefined}
+		<p>Loading...</p>
+	{:else if $user === null}
 		<p>You are not logged in...</p>
+	{:else}
+		<p>You are logged in, yay!</p>
 	{/if}
 </div>
