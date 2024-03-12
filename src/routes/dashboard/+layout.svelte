@@ -88,7 +88,7 @@
 
 	<!-- Authenticated Mobile Funds Pill -->
 	<div
-		class="fixed top-4 left-1/2 mx-auto -translate-x-1/2 w-60 md:hidden p-2 text-center text-white border rounded-lg navbar-center {funds >
+		class="fixed top-4 left-1/2 mx-auto -translate-x-1/2 w-80 md:hidden p-2 text-center text-white border rounded-lg navbar-center {funds >
 		0
 			? 'bg-success border-success'
 			: 'bg-error border-error'}"
