@@ -6,7 +6,7 @@
 	import AuthCheck from '$lib/components/AuthCheck.svelte';
 	import { formatToCurrency } from '$lib/casts';
 
-	let funds: number = 123456;
+	let funds: number = 0;
 
 	async function signOut() {
 		await firebaseSignout(FIREBASE_AUTH);
@@ -49,17 +49,20 @@
 					<li>
 						<a href="/dashboard/transactions" tabindex="0">Transactions</a>
 					</li>
+					<li>
+						<a href="/dashboard/settings" tabindex="0">Settings</a>
+					</li>
 				</ul>
 			</div>
 		</div>
 		<div
-			class="p-2 space-x-3 text-white border rounded-lg navbar-center {funds > 0
+			class="p-2 space-x-3 text-white border rounded-lg navbar-center {funds >= 0
 				? 'bg-success border-success'
 				: 'bg-error border-error'}"
 		>
 			<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
 				{formatToCurrency(funds)}
-				<span class="font-normal text-regular">Needs {funds > 0 ? 'Assigning' : 'Funding'}</span>
+				<span class="font-normal text-regular">Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span>
 			</a>
 		</div>
 		<div class="navbar-end">
@@ -88,14 +91,14 @@
 
 	<!-- Authenticated Mobile Funds Pill -->
 	<div
-		class="fixed top-4 left-1/2 mx-auto -translate-x-1/2 w-80 md:hidden p-2 text-center text-white border rounded-lg navbar-center {funds >
+		class="fixed top-4 left-1/2 mx-auto -translate-x-1/2 w-80 md:hidden p-2 text-center text-white border rounded-lg navbar-center {funds >=
 		0
 			? 'bg-success border-success'
 			: 'bg-error border-error'}"
 	>
 		<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
 			{formatToCurrency(funds)}
-			<span class="font-normal text-regular">Needs {funds > 0 ? 'Assigning' : 'Funding'}</span>
+			<span class="font-normal text-regular">Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span>
 		</a>
 	</div>
 
