@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user } from '$lib/firebase';
+	import { user } from '$lib/stores';
 	import ProgressIndicator from './ProgressIndicator.svelte';
 	import SigninForm from './SigninForm.svelte';
 </script>
