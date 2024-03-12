@@ -1,8 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
-import { writable } from 'svelte/store';
 import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
@@ -15,7 +14,6 @@ const firebaseConfig = {
 	measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth();
 export const FIREBASE_DB = getFirestore();
@@ -25,34 +23,3 @@ export const FIREBASE_ANALYTICS =
 	FIREBASE_APP.name && typeof window !== 'undefined'
 		? getAnalytics(FIREBASE_APP)
 		: null;
-
-/**
- * @returns a store with the current firebase user
- */
-function userStore() {
-	let unsubscribe: () => void;
-
-	if (!FIREBASE_AUTH || !globalThis.window) {
-		console.warn('Auth is not initialized or not in browser');
-
-		const { subscribe } = writable<User | null | undefined>(undefined);
-
-		return {
-			subscribe,
-		};
-	}
-
-	const { subscribe } = writable<User | null | undefined>(undefined, (set) => {
-		unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
-			set(user);
-		});
-
-		return () => unsubscribe();
-	});
-
-	return {
-		subscribe,
-	};
-}
-
-export const user = userStore();
