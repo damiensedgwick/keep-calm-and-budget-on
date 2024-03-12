@@ -62,7 +62,9 @@
 		>
 			<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
 				{formatToCurrency(funds)}
-				<span class="font-normal text-regular">Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span>
+				<span class="font-normal text-regular"
+					>Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span
+				>
 			</a>
 		</div>
 		<div class="navbar-end">
@@ -98,7 +100,9 @@
 	>
 		<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
 			{formatToCurrency(funds)}
-			<span class="font-normal text-regular">Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span>
+			<span class="font-normal text-regular"
+				>Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span
+			>
 		</a>
 	</div>
 
@@ -121,7 +125,10 @@
 			</svg>
 			<small class="btm-nav-label"> Dashboard </small>
 		</a>
-		<a href="/dashboard/budget" class={$page.route.id?.endsWith('budget') ? 'active' : ''}>
+		<a
+			href="/dashboard/budget"
+			class={$page.route.id?.endsWith('budget') ? 'active' : ''}
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -160,7 +167,10 @@
 
 			<small class="btm-nav-label"> Transactions </small>
 		</a>
-		<a href="/dashboard/settings" class={$page.route.id?.endsWith('settings') ? 'active' : ''}>
+		<a
+			href="/dashboard/settings"
+			class={$page.route.id?.endsWith('settings') ? 'active' : ''}
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"

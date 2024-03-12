@@ -5,22 +5,26 @@
 		GoogleAuthProvider,
 		signInWithPopup,
 		signInWithEmailAndPassword as googleSignInWithEmailAndPassword,
-		createUserWithEmailAndPassword
+		createUserWithEmailAndPassword,
 	} from 'firebase/auth';
 
 	let email: string;
 	let password: string;
 	let createAccount: boolean = false;
-	let error: any;
+	let error: unknown;
 
 	async function signInWithEmailAndPassword() {
 		try {
-			const user = await googleSignInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+			const user = await googleSignInWithEmailAndPassword(
+				FIREBASE_AUTH,
+				email,
+				password,
+			);
 
 			if (user) {
 				goto('/dashboard');
 			}
-		} catch (err: any) {
+		} catch (err) {
 			error = err;
 		}
 	}
@@ -32,7 +36,7 @@
 			if (user) {
 				goto('/dashboard');
 			}
-		} catch (err: any) {
+		} catch (err) {
 			error = err;
 		}
 	}
@@ -57,7 +61,11 @@
 			<div class="form-control">
 				<label class="cursor-pointer label">
 					<span class="font-semibold label-text">Create a new account?</span>
-					<input type="checkbox" class="toggle toggle-success" bind:checked={createAccount} />
+					<input
+						type="checkbox"
+						class="toggle toggle-success"
+						bind:checked={createAccount}
+					/>
 				</label>
 			</div>
 
@@ -104,7 +112,9 @@
 			<div class="form-control">
 				<button
 					class="text-white uppercase btn btn-primary"
-					on:click={createAccount ? signUpWithEmailAndPassword : signInWithEmailAndPassword}
+					on:click={createAccount
+						? signUpWithEmailAndPassword
+						: signInWithEmailAndPassword}
 					on:click={signUpWithEmailAndPassword}
 				>
 					Sign {createAccount ? 'up' : 'in'}
@@ -112,7 +122,9 @@
 			</div>
 
 			{#if error}
-				<p class="mt-2 font-semibold text-center text-error">Invalid Email or Password</p>
+				<p class="mt-2 font-semibold text-center text-error">
+					Invalid Email or Password
+				</p>
 			{/if}
 
 			<div class="divider"></div>
