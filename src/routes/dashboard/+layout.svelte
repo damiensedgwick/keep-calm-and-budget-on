@@ -18,7 +18,7 @@
 <AuthCheck>
 	<!-- Authenticated Global Navbar -->
 	<div
-		class="hidden mx-auto md:container md:my-2 md:border md:shadow-xl md:navbar md:bg-base-100 md:rounded-xl md:border-primary"
+		class="hidden mx-auto md:container md:my-2 md:border md:shadow-xl md:navbar md:bg-white md:rounded-xl md:border-primary"
 	>
 		<div class="navbar-start">
 			<div class="dropdown">
@@ -92,22 +92,23 @@
 	</div>
 
 	<!-- Authenticated Mobile Funds Pill -->
-	<div
-		class="fixed top-4 left-1/2 mx-auto -translate-x-1/2 w-80 md:hidden p-2 text-center text-white border rounded-lg navbar-center {funds >=
-		0
-			? 'bg-success border-success'
-			: 'bg-error border-error'}"
-	>
-		<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
-			{formatToCurrency(funds)}
-			<span class="font-normal text-regular"
-				>Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span
-			>
-		</a>
+	<div class="container px-4 mt-4">
+		<div
+			class="p-2 text-center text-white border rounded-lg navbar-center {funds >= 0
+				? 'bg-success border-success'
+				: 'bg-error border-error'}"
+		>
+			<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
+				{formatToCurrency(funds)}
+				<span class="font-normal text-regular"
+					>Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span
+				>
+			</a>
+		</div>
 	</div>
 
 	<!-- Authenticated Global BottomNav -->
-	<div class="btm-nav md:hidden">
+	<div class="z-50 btm-nav md:hidden bg-base-100">
 		<a href="/dashboard" class={$page.route.id?.endsWith('dashboard') ? 'active' : ''}>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
