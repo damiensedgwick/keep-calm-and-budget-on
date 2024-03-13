@@ -92,7 +92,7 @@
 	</div>
 
 	<!-- Authenticated Mobile Funds Pill -->
-	<div class="container px-4 mt-4">
+	<div class="container px-4 mx-auto mt-4 md:hidden">
 		<div
 			class="p-2 text-center text-white border rounded-lg navbar-center {funds >= 0
 				? 'bg-success border-success'

@@ -119,7 +119,7 @@
 	}
 </script>
 
-<div class="container px-4 mx-auto mt-5 mb-20 space-y-4">
+<div class="container px-4 mx-auto mt-5 mb-20 space-y-4 md:px-0">
 	<div class="flex items-center justify-between">
 		<h1 class="text-xl font-bold">{budget.name}</h1>
 		<button class="btn btn-outline btn-sm" on:click={toggleAllDetails}
