@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatToCurrency } from '$lib/casts';
 	import { onMount } from 'svelte';
+	import { format } from 'date-fns';
 
 	type Budget = {
 		id: string;
@@ -99,7 +100,7 @@
 	};
 
 	let detailsElements: HTMLDetailsElement[];
-	let areDetailsOpen: boolean = false;
+	let areDetailsOpen: boolean = true;
 
 	onMount(() => {
 		detailsElements = Array.from(document.querySelectorAll('details'));
@@ -118,7 +119,7 @@
 	}
 </script>
 
-<div class="container px-4 mx-auto mt-5 space-y-4">
+<div class="container px-4 mx-auto mt-5 mb-20 space-y-4">
 	<div class="flex items-center justify-between">
 		<h1 class="text-xl font-bold">{budget.name}</h1>
 		<button class="btn btn-outline btn-sm" on:click={toggleAllDetails}
@@ -126,12 +127,12 @@
 		>
 	</div>
 
-	<div class="max-h-screen p-2 bg-white border shadow-xl rounded-xl border-primary">
+	<div class="p-2 bg-white shadow-xl rounded-xl">
 		{#each budget.budgetCategories as budgetCategory}
-			<details class="collapse collapse-arrow">
-				<summary class="p-4 text-xl font-medium border-b collapse-title">
+			<details class="divide-y divider-success collapse collapse-arrow" open>
+				<summary class="text-xl font-medium collapse-title">
 					<div class="flex items-center justify-between">
-						<p>{budgetCategory.name}</p>
+						<p class="font-semibold">{budgetCategory.name}</p>
 						<div class="hidden">
 							<p>Total Budgeted: <span>{formatToCurrency(5000)}</span></p>
 							<p>Total Spent: <span>{formatToCurrency(7500)}</span></p>
@@ -139,14 +140,27 @@
 						</div>
 					</div>
 				</summary>
-				<div class="p-4 border-b collapse-content">
+				<div class="pt-4 space-y-4 collapse-content">
 					{#each budgetCategory.budgetCategoryItems as budgetCategoryItem}
-						<p>{budgetCategoryItem.name}</p>
+						<div class="flex flex-col py-4 border-b-2 first:pt-0">
+							<div class="flex items-center justify-between">
+								<p>{budgetCategoryItem.name}</p>
 
-						{#if budgetCategoryItem.target}
-							<p>{formatToCurrency(budgetCategoryItem.target.amount)}</p>
-							<p>{budgetCategoryItem.target.date}</p>
-						{/if}
+								{#if budgetCategoryItem.target}
+									<p class="px-2 py-0.5 rounded-full bg-success text-white">
+										{formatToCurrency(budgetCategoryItem.target.amount)}
+									</p>
+									<p class="hidden">{format(budgetCategoryItem.target.date, 'E io')}</p>
+								{/if}
+							</div>
+							<div class="">
+								<progress class="progress progress-success" value="28" max="100"
+								></progress>
+								<p class="text-xs">
+									Funded, Spent {formatToCurrency(5600)} of {formatToCurrency(20000)}
+								</p>
+							</div>
+						</div>
 					{/each}
 				</div>
 			</details>

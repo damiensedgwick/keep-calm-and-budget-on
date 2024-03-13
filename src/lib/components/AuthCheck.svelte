@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { user } from '$lib/stores';
-	import ProgressIndicator from './ProgressIndicator.svelte';
+	import LoadingIndicator from './LoadingIndicator.svelte';
 	import SigninForm from './SigninForm.svelte';
 </script>
 
@@ -9,7 +9,7 @@
 {/if}
 
 {#if $user === undefined}
-	<ProgressIndicator />
+	<LoadingIndicator />
 {/if}
 
 {#if $user}
