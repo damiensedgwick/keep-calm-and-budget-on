@@ -126,7 +126,7 @@
 </script>
 
 <div class="container px-4 mx-auto mt-5 space-y-4 md:px-0 pb-28">
-	<div class="flex items-center justify-between">
+	<div class="flex items-center justify-between px-1">
 		<h1 class="text-xl font-bold">{budget.name}</h1>
 		<button class="btn btn-outline btn-sm" on:click={toggleAllDetails}
 			>{areDetailsOpen ? 'Close' : 'Open'} All</button
