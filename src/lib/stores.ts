@@ -29,3 +29,5 @@ function userStore() {
 }
 
 export const user = userStore();
+
+export const funds = writable(0);

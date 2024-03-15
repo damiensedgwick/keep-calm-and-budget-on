@@ -19,7 +19,8 @@
 		id: string;
 		name: string;
 		type: BudgetCategoryItemType;
-		target: BudgetCategoryItemTarget | undefined;
+		fundedAmount: number;
+		target?: BudgetCategoryItemTarget;
 	};
 
 	type BudgetCategoryItemType = 'bill' | 'debt' | 'saving';
@@ -41,6 +42,7 @@
 						id: '0893d3f5-083f-45f6-9088-e4a77cef0123',
 						name: 'Car Insurance',
 						type: 'bill',
+						fundedAmount: 4000,
 						target: {
 							amount: 4000,
 							date: new Date(2024, 4, 1),
@@ -50,6 +52,7 @@
 						id: '99e6a815-d47f-4743-b8f5-fe4c8fdff0be',
 						name: 'Barclays Credit Card',
 						type: 'debt',
+						fundedAmount: 0,
 						target: {
 							amount: 5000,
 							date: new Date(2024, 4, 13),
@@ -65,6 +68,7 @@
 						id: 'a4f182f2-c696-46d5-8fbb-cfa5765c0d22',
 						name: 'Holiday Fund',
 						type: 'saving',
+						fundedAmount: 0,
 						target: {
 							amount: 500000,
 							date: new Date(2024, 7, 1),
@@ -80,6 +84,7 @@
 						id: '651331d8-5085-4c97-9025-ea39466cef55',
 						name: 'Christmas',
 						type: 'saving',
+						fundedAmount: 0,
 						target: {
 							amount: 99900,
 							date: new Date(2024, 11, 1),
@@ -89,9 +94,10 @@
 						id: '3c1d1f5e-3f0c-42d4-b25b-dd3e9e84f5a6',
 						name: "Jade's Birthday",
 						type: 'saving',
+						fundedAmount: 0,
 						target: {
 							amount: 20000,
-							date: new Date(2024, 8, 30),
+							date: new Date(2024, 11, 1),
 						},
 					},
 				],
@@ -147,17 +153,33 @@
 								<p>{budgetCategoryItem.name}</p>
 
 								{#if budgetCategoryItem.target}
-									<p class="px-2 py-0.5 rounded-full bg-success text-white">
+									<p
+										class="px-2 py-0.5 rounded-full text-white {budgetCategoryItem.fundedAmount ===
+										budgetCategoryItem.target.amount
+											? 'bg-success'
+											: 'bg-warning'}"
+									>
 										{formatToCurrency(budgetCategoryItem.target.amount)}
 									</p>
 									<p class="hidden">{format(budgetCategoryItem.target.date, 'E io')}</p>
 								{/if}
 							</div>
 							<div class="">
-								<progress class="progress progress-success" value="28" max="100"
-								></progress>
+								{#if budgetCategoryItem.target}
+									<progress
+										class="progress progress-success"
+										value={budgetCategoryItem.fundedAmount}
+										max={budgetCategoryItem.target.amount}
+									></progress>
+								{/if}
+
 								<p class="text-xs">
-									Funded, Spent {formatToCurrency(5600)} of {formatToCurrency(20000)}
+									{#if budgetCategoryItem.target}
+										Funded, Spent {formatToCurrency(budgetCategoryItem.fundedAmount)} of
+										{formatToCurrency(budgetCategoryItem.target.amount)}
+									{:else}
+										Funded {formatToCurrency(budgetCategoryItem.fundedAmount)}
+									{/if}
 								</p>
 							</div>
 						</div>

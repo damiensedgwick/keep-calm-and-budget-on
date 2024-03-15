@@ -5,8 +5,15 @@
 	import { signOut as firebaseSignout } from 'firebase/auth';
 	import AuthCheck from '$lib/components/AuthCheck.svelte';
 	import { formatToCurrency } from '$lib/casts';
+	import { funds } from '$lib/stores';
+	import { onDestroy } from 'svelte';
 
-	let funds: number = 0;
+	let currentFunds: number;
+	const unsubscribe = funds.subscribe((value) => {
+		currentFunds = value;
+	});
+
+	onDestroy(unsubscribe);
 
 	async function signOut() {
 		await firebaseSignout(FIREBASE_AUTH);
@@ -56,14 +63,14 @@
 			</div>
 		</div>
 		<div
-			class="p-2 space-x-3 text-white border rounded-lg navbar-center {funds >= 0
+			class="p-2 space-x-3 text-white border rounded-lg navbar-center {currentFunds >= 0
 				? 'bg-success border-success'
 				: 'bg-error border-error'}"
 		>
 			<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
-				{formatToCurrency(funds)}
+				{formatToCurrency(currentFunds)}
 				<span class="font-normal text-regular"
-					>Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span
+					>Needs {currentFunds >= 0 ? 'Assigning' : 'Funding'}</span
 				>
 			</a>
 		</div>
@@ -94,14 +101,15 @@
 	<!-- Authenticated Mobile Funds Pill -->
 	<div class="container px-4 mx-auto mt-4 md:hidden">
 		<div
-			class="p-2 text-center text-white border rounded-lg navbar-center {funds >= 0
+			class="p-2 text-center text-white border rounded-lg navbar-center {currentFunds >=
+			0
 				? 'bg-success border-success'
 				: 'bg-error border-error'}"
 		>
 			<a href="/dashboard/budget" title="budget" class="text-lg font-bold">
-				{formatToCurrency(funds)}
+				{formatToCurrency(currentFunds)}
 				<span class="font-normal text-regular"
-					>Needs {funds >= 0 ? 'Assigning' : 'Funding'}</span
+					>Needs {currentFunds >= 0 ? 'Assigning' : 'Funding'}</span
 				>
 			</a>
 		</div>
