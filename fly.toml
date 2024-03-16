@@ -1,0 +1,24 @@
+# fly.toml app configuration file generated for keep-calm-and-budget-on on 2024-03-16T15:22:16Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'keep-calm-and-budget-on'
+primary_region = 'lhr'
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[mounts]
+  source="app_data"
+  destination="/data"
+
+[[vm]]
+  size = 'shared-cpu-1x'

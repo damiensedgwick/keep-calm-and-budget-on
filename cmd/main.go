@@ -6,11 +6,11 @@ import (
 	"io"
 	"os"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	_ "github.com/mattn/go-sqlite3"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 type Template struct {
@@ -27,21 +27,27 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 	return t.tmpl.ExecuteTemplate(w, name, data)
 }
 
-var db *sqlx.DB
-
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
 		fmt.Println("error loading godotenv")
 	}
 
-	db = sqlx.MustConnect("sqlite3", os.Getenv("KEEP_CALM_AND_CARRY_ON_DB_PATH"))
-
-	var message string
-	err = db.Ping()
-	if err == nil {
-		message = "Successfully connected to DB"
+	db, err := gorm.Open(sqlite.Open(os.Getenv("DATABASE_URL")), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
 	}
+
+	// Migrate the schema
+	db.AutoMigrate(&User{})
+
+	// Create
+	db.Create(&User{
+		Name: "Damien Sedgwick", Email: "damienksedgwick@gmail.com", Password: "password"})
+
+	// Read
+	var user User
+	db.First(&user, 1)
 
 	e := echo.New()
 
@@ -53,18 +59,25 @@ func main() {
 	e.Renderer = newTemplate()
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Render(200, "index", newPageData(message))
+		return c.Render(200, "index", newPageData(user))
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
 type PageData struct {
-	Message string
+	User User
 }
 
-func newPageData(message string) PageData {
+func newPageData(user User) PageData {
 	return PageData{
-		Message: message,
+		User: user,
 	}
+}
+
+type User struct {
+	gorm.Model
+	Name     string
+	Email    string
+	Password string
 }
