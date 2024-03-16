@@ -1,6 +1,0 @@
-<script lang="ts">
-</script>
-
-<div class="flex items-center justify-center h-4/5">
-	<h1>Dashboard</h1>
-</div>
