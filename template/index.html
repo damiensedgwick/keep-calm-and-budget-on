@@ -24,7 +24,7 @@
 					<button type="button" hx-post="/auth/sign-out" hx-target="body">Sign Out</button>
 					{{ end }}
 					{{ if not .User }}
-					<button type="button" hx-get="/auth/sign-in" hx-target="section">Sign In</button>
+					<button type="button" hx-get="/auth/sign-in" hx-target="#content">Sign In</button>
 					{{ end }}
 				</li>
 			</ul>
