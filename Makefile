@@ -1,4 +1,4 @@
-BINARY_NAME=keep-calm-and-carry-on
+BINARY_NAME=keep-calm-and-budget-on
 
 all: clean format build run
 
