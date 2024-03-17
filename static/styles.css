@@ -12,21 +12,20 @@ body {
 }
 
 header {
-    padding: 1.5em 2em;
+    padding: 1em;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1024px;
+    max-width: 1280px;
     margin: auto;
 }
 
 nav>p {
     font-weight: bold;
     color: tomato;
-    font-size: 1.35em;
 }
 
 ul {
@@ -47,7 +46,7 @@ a {
 }
 
 button {
-    padding: 0.5em 1.5em;
+    padding: 0.5em 1em;
     border: none;
     background: tomato;
     color: white;
@@ -79,6 +78,7 @@ input {
 }
 
 .auth-form-wrapper {
+    padding: 0.5em;
     height: 100%;
     width: 100%;
     display: flex;
@@ -105,4 +105,14 @@ input {
     color: white;
     text-transform: uppercase;
     cursor: pointer;
+}
+
+@media screen and (min-width: 992px) {
+    nav>p {
+        font-size: 1.5em;
+    }
+
+    button {
+        padding: 0.5em 1.5em;
+    }
 }
