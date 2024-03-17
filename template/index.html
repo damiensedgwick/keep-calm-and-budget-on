@@ -7,6 +7,7 @@
 	<title>Keep Calm & Budget On | Envelope Budgeting | Zero Based Budgeting</title>
 	<meta name="description"
 		content="Ready to finally get your budget on track? Explore easy-to-use budgeting techniques that work. Keep calm and budget on!">
+	<link rel="shortcut icon" href="static/favicon.png" type="image/png">
 	<link href="static/styles.css" rel="stylesheet">
 	<script src="static/htmx.min.js"></script>
 </head>
@@ -55,14 +56,10 @@
 </html>
 {{ end }}
 
-{{ block "auth-form" . }}
+{{ block "signin-form" . }}
 <div class="auth-form-wrapper">
 	<form id="auth-form" hx-post="/auth/sign-in" hx-target="body">
-		<p>Sign in to Napp</p>
-		<small>
-			An example user has been created in the database for you, you can login
-			using: <b>johnsnow@winterfell.com</b> and <b>ghost</b>
-		</small>
+		<p>Sign In</p>
 		<div>
 			Email:
 			<label for="email">
@@ -77,5 +74,34 @@
 		</div>
 		<button type="submit">Sign In</button>
 	</form>
+	<p>Neet to create an account? <span hx-get="/auth/sign-up" hx-target="#content">Sign Up</span></p>
+</div>
+{{ end }}
+
+{{ block "signup-form" . }}
+<div class="auth-form-wrapper">
+	<form id="auth-form" hx-post="/auth/sign-up" hx-target="body">
+		<p>Sign Up</p>
+		<div>
+			Name:
+			<label for="name">
+				<input type="text" name="name" value="" />
+			</label>
+		</div>
+		<div>
+			Email:
+			<label for="email">
+				<input type="text" name="email" value="" />
+			</label>
+		</div>
+		<div>
+			Password:
+			<label for="password">
+				<input type="password" name="password" value="" />
+			</label>
+		</div>
+		<button type="submit">Sign Up</button>
+	</form>
+	<p>Already have an account? <span hx-get="/auth/sign-in" hx-target="#content">Sign In</span></p>
 </div>
 {{ end }}

@@ -76,7 +76,11 @@ func main() {
 	})
 
 	e.GET("/auth/sign-in", func(c echo.Context) error {
-		return c.Render(200, "auth-form", nil)
+		return c.Render(200, "signin-form", nil)
+	})
+
+	e.GET("/auth/sign-up", func(c echo.Context) error {
+		return c.Render(200, "signup-form", nil)
 	})
 
 	e.POST("/auth/sign-in", func(c echo.Context) error {
@@ -90,6 +94,53 @@ func main() {
 		if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 			return echo.ErrUnauthorized
 		}
+
+		sess, _ := session.Get("session", c)
+		sess.Options = &sessions.Options{
+			Path:     "/",
+			MaxAge:   86400 * 7,
+			HttpOnly: true,
+		}
+
+		userBytes, err := json.Marshal(user)
+		if err != nil {
+			fmt.Println("error marshalling user value")
+			return err
+		}
+
+		sess.Values["user"] = userBytes
+
+		err = sess.Save(c.Request(), c.Response())
+		if err != nil {
+			fmt.Println("error saving session: ", err)
+			return err
+		}
+
+		return c.Render(200, "index", newPageData(user))
+	})
+
+	e.POST("/auth/sign-up", func(c echo.Context) error {
+		email := c.FormValue("email")
+		name := c.FormValue("name")
+		password := c.FormValue("password")
+
+		hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+		if err != nil {
+			fmt.Println("error hasing new password")
+			return err
+		}
+
+		id := db.Create(&User{
+			Model:     gorm.Model{},
+			Name:      name,
+			Email:     email,
+			Password:  hash,
+			CreatedAt: time.Now(),
+			UpdatedAt: &time.Time{},
+		})
+
+		var user User
+		db.First(&user, id)
 
 		sess, _ := session.Get("session", c)
 		sess.Options = &sessions.Options{
@@ -144,7 +195,7 @@ type User struct {
 	gorm.Model
 	Name      string
 	Email     string
-	Password  string
+	Password  []byte
 	CreatedAt time.Time
 	UpdatedAt *time.Time
 }
