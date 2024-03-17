@@ -55,22 +55,7 @@ func main() {
 		panic("failed to connect database")
 	}
 
-	// Migrate the schema
 	db.AutoMigrate(&User{})
-
-	var user User
-	notFoundErr := db.First(&user, "email = ?", "johnsnow@winterfell.com").Error
-	if notFoundErr == gorm.ErrRecordNotFound {
-		// User not found; proceed with creation
-		db.Create(&User{
-			Model:     gorm.Model{},
-			Name:      "John Snow",
-			Email:     "johnsnow@winterfell.com",
-			Password:  "$2a$10$1oPDSctekA8P2IHDHoKNb.JjWJ4XFwzZAvYSHp0s4byhFeMp9.da.",
-			CreatedAt: time.Time{},
-			UpdatedAt: &time.Time{},
-		})
-	}
 
 	e.GET("/", func(c echo.Context) error {
 		sess, _ := session.Get("session", c)
