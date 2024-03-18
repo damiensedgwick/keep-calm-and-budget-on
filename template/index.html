@@ -20,14 +20,18 @@
 			</p>
 
 			<ul>
+				{{ if .User }}
 				<li>
-					{{ if .User }}
-					<button type="button" hx-post="/auth/sign-out" hx-target="body">Sign Out</button>
-					{{ end }}
-					{{ if not .User }}
-					<button type="button" hx-get="/auth/sign-in" hx-target="#content">Sign In</button>
-					{{ end }}
+					<a href="/dashboard" class="btn">My Budget</a>
 				</li>
+				{{ end }}
+
+				{{ if not .User }}
+				<li>
+					<button class="btn" type="button" hx-get="/auth/sign-in" hx-target="#content">Sign In</button>
+				</li>
+				{{ end }}
+
 			</ul>
 		</nav>
 	</header>
@@ -59,7 +63,7 @@
 {{ block "signin-form" . }}
 <div class="auth-form-wrapper">
 	<form id="auth-form" hx-post="/auth/sign-in" hx-target="body">
-		<p>Sign In</p>
+		<p>Keep Calm & Budget On: Sign In</p>
 		<div>
 			Email:
 			<label for="email">
@@ -72,7 +76,7 @@
 				<input type="password" name="password" value="" />
 			</label>
 		</div>
-		<button type="submit">Sign In</button>
+		<button class="btn" type="submit">Sign In</button>
 	</form>
 	<p>Neet to create an account? <span hx-get="/auth/sign-up" hx-target="#content">Sign Up</span></p>
 </div>
@@ -81,7 +85,7 @@
 {{ block "signup-form" . }}
 <div class="auth-form-wrapper">
 	<form id="auth-form" hx-post="/auth/sign-up" hx-target="body">
-		<p>Sign Up</p>
+		<p>Keep Calm & Budget On: Sign Up</p>
 		<div>
 			Name:
 			<label for="name">
@@ -100,7 +104,7 @@
 				<input type="password" name="password" value="" />
 			</label>
 		</div>
-		<button type="submit">Sign Up</button>
+		<button class="btn" type="submit">Sign Up</button>
 	</form>
 	<p>Already have an account? <span hx-get="/auth/sign-in" hx-target="#content">Sign In</span></p>
 </div>

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"net/http"
 	"os"
 	"time"
 
@@ -147,6 +148,7 @@ func main() {
 			Path:     "/",
 			MaxAge:   86400 * 7,
 			HttpOnly: true,
+			SameSite: http.SameSiteStrictMode,
 		}
 
 		userBytes, err := json.Marshal(user)
@@ -176,6 +178,26 @@ func main() {
 		}
 
 		return c.Render(200, "index", nil)
+	})
+
+	e.GET("/dashboard", func(c echo.Context) error {
+		sess, _ := session.Get("session", c)
+		if err != nil {
+			return c.Render(303, "index", nil)
+		}
+
+		if sess.Values["user"] == nil {
+			return c.Render(303, "index", nil)
+		}
+
+		var user User
+		err := json.Unmarshal(sess.Values["user"].([]byte), &user)
+		if err != nil {
+			fmt.Println("error unmarshalling user value")
+			return err
+		}
+
+		return c.Render(200, "dashboard", newPageData(user))
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))
